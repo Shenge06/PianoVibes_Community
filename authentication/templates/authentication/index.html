@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap JS for alert dismiss -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C+x5x8uJC3kD8t5Zgj+xHN6PVMqFkIjCa13/9jpL9gCvPcVKxyx0L3XlASvcUvZv" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Display messages if any -->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message: </strong>{{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+    <div class="container">
+        <h3 class="mt-5">Welcome to PianoVibes Community</h3>
+
+        <!-- Check if the user is authenticated -->
+        {% if user.is_authenticated %} 
+            <h3>Hello {{ fname }}</h3>
+            <h4>You're successfully logged in.</h4>
+            <!-- Link to User Posts page -->
+            <a href="{% url 'user_posts' %}" class="btn btn-primary">View Your Posts</a>
+            <!-- Link to Create Post page -->
+            <a href="{% url 'create_post' %}" class="btn btn-success">Create a New Post</a>
+            <!-- Button to About page -->
+            <a href="{% url 'about' %}" class="btn btn-info">About</a>
+            <!-- Button to Contact page -->
+            <a href="{% url 'contact' %}" class="btn btn-warning">Contact</a>
+            <!-- Sign Out form -->
+            <form method="post" action="/signout">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sign Out</button>
+            </form>
+        {% else %}
+            <!-- Sign Up form -->
+            <form method="post" action="/signup" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+            <!-- Sign In form -->
+            <form method="post" action="/signin" class="mt-3">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" name="username" class="form-control" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                    <input type="password" name="pass1" class="form-control" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-success">Sign In</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>
