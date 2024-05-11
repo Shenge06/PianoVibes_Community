@@ -1,0 +1,19 @@
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore the virtual environment directory
+env_mydjango/      # Ignore the virtual environment directory
+
+# Ignore any local settings or secrets file
+config.ini
+secrets.json
+.env                 # Ignore .env file
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore build directories
+build/
+dist/

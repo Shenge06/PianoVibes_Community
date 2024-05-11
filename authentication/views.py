@@ -6,11 +6,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from .models import Post
 
-# Create your views here.
-
 def home(request):
     """
     View function for the home page.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Rendered HTML response for the home page.
     """
     return render(request, "authentication/index.html")
 
@@ -18,6 +22,15 @@ def home(request):
 def signup(request):
     """
     View function for user signup.
+
+    This view handles user registration by processing form data and creating a new user account.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Redirects to the home page after successful registration.
+                    Redirects back to signup page with error messages if form validation fails.
     """
     if request.method == "POST":
         # Retrieve form data
@@ -57,6 +70,14 @@ def signup(request):
 def signout(request):
     """
     View function for user signout.
+
+    This view logs out the current user and redirects to the home page.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Redirects to the home page after successful logout.
     """
     logout(request)
     messages.success(request, "Logged out successfully")
@@ -66,6 +87,15 @@ def signout(request):
 def signin(request):
     """
     View function for user signin.
+
+    This view handles user login authentication.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Redirects to the home page after successful login.
+                    Redirects back to signin page with error messages if authentication fails.
     """
     if request.method == 'POST':
         print(request.POST)  # Add this line for debugging
@@ -92,6 +122,14 @@ def signin(request):
 def user_posts(request):
     """
     View function to display user's posts.
+
+    This view retrieves and displays posts created by the current user.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Rendered HTML response displaying the user's posts.
     """
     posts = Post.objects.filter(user=request.user)
     return render(request, 'authentication/user_posts.html', {'posts': posts})
@@ -99,6 +137,14 @@ def user_posts(request):
 def create_post(request):
     """
     View function for creating a new post.
+
+    This view handles the creation of new posts by users.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Redirects to the user's posts page after successful post creation.
     """
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -111,11 +157,23 @@ def create_post(request):
 def about(request):
     """
     View function for the about page.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Rendered HTML response for the about page.
     """
     return render(request, 'authentication/about.html')
 
 def contact(request):
     """
     View function for the contact page.
+
+    Parameters:
+    - request: HttpRequest object
+
+    Returns:
+    - HttpResponse: Rendered HTML response for the contact page.
     """
     return render(request, 'authentication/contact.html')
